@@ -548,4 +548,229 @@
                 container.appendChild(layer);
             }
             
-           
+           return {
+                element: container,
+                name: 'Layered Gradients',
+                type: 'Soft Atmosphere'
+            };
+        }
+        
+        function createFlowingLines(container) {
+            const colors = getRandomColors();
+            container.style.background = `linear-gradient(45deg, ${colors[0]}, ${colors[1]})`;
+            
+            // Add flowing lines
+            for(let i = 0; i < 6; i++) {
+                const line = document.createElement('div');
+                line.style.position = 'absolute';
+                line.style.width = `${150 + Math.random() * 100}px`;
+                line.style.height = '2px';
+                line.style.top = `${Math.random() * 90}%`;
+                line.style.left = `${-50 + Math.random() * 100}%`;
+                line.style.background = `linear-gradient(90deg, transparent, ${colors[2]}aa, transparent)`;
+                line.style.transform = `rotate(${Math.random() * 180}deg)`;
+                line.style.opacity = '0.6';
+                
+                container.appendChild(line);
+            }
+            
+            return {
+                element: container,
+                name: 'Flowing Lines',
+                type: 'Linear Motion'
+            };
+        }
+        
+        function createParticleField(container) {
+            const colors = getRandomColors();
+            container.style.background = `radial-gradient(circle at center, ${colors[0]}, ${colors[1]})`;
+            
+            // Add particles
+            for(let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.style.position = 'absolute';
+                particle.style.width = `${2 + Math.random() * 4}px`;
+                particle.style.height = particle.style.width;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.borderRadius = '50%';
+                particle.style.background = colors[2];
+                particle.style.opacity = `${0.3 + Math.random() * 0.7}`;
+                particle.style.animation = `float ${2 + Math.random() * 6}s ease-in-out infinite`;
+                
+                container.appendChild(particle);
+            }
+            
+            return {
+                element: container,
+                name: 'Particle Field',
+                type: 'Cosmic Dust'
+            };
+        }
+        
+        function createCrystalStructure(container) {
+            const colors = getRandomColors();
+            container.style.background = `linear-gradient(60deg, ${colors[0]}, ${colors[1]})`;
+            
+            // Add crystal facets
+            for(let i = 0; i < 8; i++) {
+                const crystal = document.createElement('div');
+                crystal.style.position = 'absolute';
+                crystal.style.width = `${30 + Math.random() * 50}px`;
+                crystal.style.height = `${30 + Math.random() * 50}px`;
+                crystal.style.top = `${Math.random() * 80}%`;
+                crystal.style.left = `${Math.random() * 80}%`;
+                crystal.style.background = `linear-gradient(${getRandomAngle()}deg, ${colors[2]}44, ${colors[3]}66)`;
+                crystal.style.clipPath = 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)';
+                crystal.style.transform = `rotate(${Math.random() * 360}deg)`;
+                crystal.style.opacity = '0.7';
+                
+                container.appendChild(crystal);
+            }
+            
+            return {
+                element: container,
+                name: 'Crystal Structure',
+                type: 'Geometric Formation'
+            };
+        }
+        
+        function createLiquidMotion(container) {
+            const colors = getRandomColors();
+            container.style.background = `radial-gradient(ellipse at top, ${colors[0]}, ${colors[1]})`;
+            
+            // Add liquid drops
+            for(let i = 0; i < 5; i++) {
+                const drop = document.createElement('div');
+                drop.style.position = 'absolute';
+                drop.style.width = `${60 + Math.random() * 80}px`;
+                drop.style.height = `${40 + Math.random() * 60}px`;
+                drop.style.top = `${Math.random() * 70}%`;
+                drop.style.left = `${Math.random() * 70}%`;
+                drop.style.background = `radial-gradient(ellipse, ${colors[2]}88, ${colors[3]}44)`;
+                drop.style.borderRadius = '50% 50% 50% 50% / 60% 60% 40% 40%';
+                drop.style.transform = `rotate(${Math.random() * 360}deg)`;
+                drop.style.filter = 'blur(2px)';
+                drop.style.opacity = '0.8';
+                
+                container.appendChild(drop);
+            }
+            
+            return {
+                element: container,
+                name: 'Liquid Motion',
+                type: 'Fluid Dynamics'
+            };
+        }
+        
+        function getRandomColors() {
+            const paletteKeys = Object.keys(colorPalettes);
+            const selectedPalette = colorPalettes[paletteKeys[Math.floor(Math.random() * paletteKeys.length)]];
+            
+            // Mix colors from different palettes
+            const colors = [];
+            for(let i = 0; i < 4; i++) {
+                const randomPalette = colorPalettes[paletteKeys[Math.floor(Math.random() * paletteKeys.length)]];
+                colors.push(randomPalette[Math.floor(Math.random() * randomPalette.length)]);
+            }
+            
+            return colors;
+        }
+        
+        function getRandomAngle() {
+            return Math.floor(Math.random() * 360);
+        }
+        
+        function showLoading() {
+            document.getElementById('loading').classList.add('active');
+        }
+        
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('active');
+        }
+        
+        function downloadWallpaper() {
+            if (!currentWallpaper) return;
+            
+            const [width, height] = selectedSize.split('x').map(Number);
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            // Create a temporary wallpaper at full size
+            const tempContainer = document.createElement('div');
+            tempContainer.style.width = `${width}px`;
+            tempContainer.style.height = `${height}px`;
+            tempContainer.style.position = 'absolute';
+            tempContainer.style.top = '-9999px';
+            tempContainer.style.left = '-9999px';
+            
+            document.body.appendChild(tempContainer);
+            
+            // Recreate the wallpaper at full size
+            const wallpaperElement = currentWallpaper.element.cloneNode(true);
+            tempContainer.appendChild(wallpaperElement);
+            
+            // Convert to canvas using html2canvas-like approach
+            const computedStyle = window.getComputedStyle(wallpaperElement);
+            ctx.fillStyle = computedStyle.background || '#1a1a2e';
+            ctx.fillRect(0, 0, width, height);
+            
+            // Add a subtle pattern overlay
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, 'rgba(0, 188, 212, 0.1)');
+            gradient.addColorStop(0.5, 'rgba(76, 175, 80, 0.1)');
+            gradient.addColorStop(1, 'rgba(0, 150, 136, 0.1)');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Download
+            const link = document.createElement('a');
+            link.download = `${currentWallpaper.name.toLowerCase().replace(/\s+/g, '-')}-${selectedSize}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+            
+            // Cleanup
+            document.body.removeChild(tempContainer);
+        }
+        
+        function savePreset() {
+            if (!currentWallpaper) return;
+            
+            // For demo purposes, just show feedback since localStorage isn't available
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = 'Saved!';
+            setTimeout(() => {
+                btn.textContent = originalText;
+            }, 1000);
+        }
+        
+        function loadPreset() {
+            // Just generate a new wallpaper for demo
+            generateWallpaper();
+        }
+        
+        // Add CSS animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); opacity: 0.7; }
+                50% { transform: scale(1.05); opacity: 0.9; }
+            }
+            
+            @keyframes float {
+                0%, 100% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Auto-generate new wallpaper every 30 seconds (optional)
+        // setInterval(generateWallpaper, 30000);
+    </script>
+</body>
+</html>
