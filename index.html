@@ -302,10 +302,20 @@
         let currentWallpaper = null;
         let selectedSize = '1080x1920';
         
-        // Initialize
+        // Initialize with a default wallpaper
         document.addEventListener('DOMContentLoaded', function() {
-            generateWallpaper();
+            console.log('DOM loaded, initializing...');
             setupSizeButtons();
+            
+            // Generate initial wallpaper
+            const initialWallpaper = createGradientWaves(document.createElement('div'));
+            const wallpaperElement = document.getElementById('wallpaper');
+            wallpaperElement.appendChild(initialWallpaper.element);
+            document.getElementById('wallpaper-name').textContent = initialWallpaper.name;
+            document.getElementById('wallpaper-type').textContent = initialWallpaper.type;
+            currentWallpaper = initialWallpaper;
+            
+            console.log('Initial wallpaper loaded');
         });
         
         function setupSizeButtons() {
@@ -320,18 +330,29 @@
         }
         
         function generateWallpaper() {
+            console.log('Generating wallpaper...');
             showLoading();
             
             setTimeout(() => {
-                const pattern = patternTypes[Math.floor(Math.random() * patternTypes.length)];
-                const wallpaper = createWallpaper(pattern);
-                
-                document.getElementById('wallpaper').innerHTML = '';
-                document.getElementById('wallpaper').appendChild(wallpaper.element);
-                document.getElementById('wallpaper-name').textContent = wallpaper.name;
-                document.getElementById('wallpaper-type').textContent = wallpaper.type;
-                
-                currentWallpaper = wallpaper;
+                try {
+                    const pattern = patternTypes[Math.floor(Math.random() * patternTypes.length)];
+                    console.log('Selected pattern:', pattern);
+                    
+                    const wallpaper = createWallpaper(pattern);
+                    console.log('Created wallpaper:', wallpaper);
+                    
+                    const wallpaperElement = document.getElementById('wallpaper');
+                    wallpaperElement.innerHTML = '';
+                    wallpaperElement.appendChild(wallpaper.element);
+                    
+                    document.getElementById('wallpaper-name').textContent = wallpaper.name;
+                    document.getElementById('wallpaper-type').textContent = wallpaper.type;
+                    
+                    currentWallpaper = wallpaper;
+                    console.log('Wallpaper generated successfully');
+                } catch (error) {
+                    console.error('Error generating wallpaper:', error);
+                }
                 hideLoading();
             }, 800);
         }
@@ -342,6 +363,8 @@
             container.style.height = '100%';
             container.style.position = 'relative';
             container.style.overflow = 'hidden';
+            
+            console.log('Creating wallpaper with pattern:', pattern);
             
             switch(pattern) {
                 case 'gradient-waves':
@@ -364,6 +387,8 @@
                     return createCrystalStructure(container);
                 case 'liquid-motion':
                     return createLiquidMotion(container);
+                default:
+                    return createGradientWaves(container);
             }
         }
         
@@ -523,37 +548,4 @@
                 container.appendChild(layer);
             }
             
-            return {
-                element: container,
-                name: 'Layered Gradients',
-                type: 'Soft Atmosphere'
-            };
-        }
-        
-        function createFlowingLines(container) {
-            const colors = getRandomColors();
-            container.style.background = `linear-gradient(45deg, ${colors[0]}, ${colors[1]})`;
-            
-            // Add flowing lines
-            for(let i = 0; i < 6; i++) {
-                const line = document.createElement('div');
-                line.style.position = 'absolute';
-                line.style.width = `${150 + Math.random() * 100}px`;
-                line.style.height = '2px';
-                line.style.top = `${Math.random() * 90}%`;
-                line.style.left = `${-50 + Math.random() * 100}%`;
-                line.style.background = `linear-gradient(90deg, transparent, ${colors[2]}aa, transparent)`;
-                line.style.transform = `rotate(${Math.random() * 180}deg)`;
-                line.style.opacity = '0.6';
-                
-                container.appendChild(line);
-            }
-            
-            return {
-                element: container,
-                name: 'Flowing Lines',
-                type: 'Linear Motion'
-            };
-        }
-        
-        function createParticleField(contain
+           
