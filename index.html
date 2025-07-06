@@ -3,13 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Material Design Wallpaper Generator</title>
+    <title>Random Wallpaper Generator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <button id="generate-wallpaper">Generate Wallpaper</button>
-    <button id="save-wallpaper" style="display: none;">Save Wallpaper</button>
-    <canvas id="wallpaper-canvas"></canvas>
+    <div class="container">
+        <h1>Random Wallpaper Generator</h1>
+        <button id="generateButton">Generate Wallpaper</button>
+        <div id="wallpaperContainer">
+            <canvas id="wallpaperCanvas"></canvas>
+        </div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
