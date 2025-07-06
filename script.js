@@ -1,64 +1,47 @@
-const generateWallpaperButton = document.getElementById('generate-wallpaper');
-const saveWallpaperButton = document.getElementById('save-wallpaper');
-const wallpaperCanvas = document.getElementById('wallpaper-canvas');
-const ctx = wallpaperCanvas.getContext('2d');
+document.getElementById('generateButton').addEventListener('click', generateWallpaper);
 
-// Set canvas dimensions
-wallpaperCanvas.width = window.innerWidth;
-wallpaperCanvas.height = window.innerHeight;
-
-// Define color palette
-const colors = [
-    '#2E865F',
-    '#2196F3',
-    '#FF9800',
-    '#FF69B4',
-    '#8BC34A',
-    '#03A9F4',
-    '#FFC107',
-    '#FF6347',
-];
-
-// Function to generate random wallpaper
 function generateWallpaper() {
-    ctx.fillStyle = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.1)`;
-    ctx.fillRect(0, 0, wallpaperCanvas.width, wallpaperCanvas.height);
+    const canvas = document.getElementById('wallpaperCanvas');
+    const ctx = canvas.getContext('2d');
+    const width = 360; // Standard phone width
+    const height = 640; // Standard phone height
+    canvas.width = width;
+    canvas.height = height;
 
-    for (let i = 0; i < 500; i++) {
-        const shapeType = Math.random() < 0.5 ? 'circle' : 'rectangle';
-        const x = Math.random() * wallpaperCanvas.width;
-        const y = Math.random() * wallpaperCanvas.height;
-        const size = Math.random() * 50 + 10;
-        const color = colors[Math.floor(Math.random() * colors.length)];
+    // Generate random colors
+    const backgroundColor = getRandomColor();
+    const gradientColor1 = getRandomColor();
+    const gradientColor2 = getRandomColor();
+    const blurAmount = Math.random() * 10; // Random blur amount
 
-        if (shapeType === 'circle') {
-            ctx.fillStyle = color;
-            ctx.beginPath();
-            ctx.arc(x, y, size, 0, 2 * Math.PI);
-            ctx.fill();
-        } else {
-            ctx.fillStyle = color;
-            ctx.fillRect(x, y, size, size);
-        }
-    }
+    // Draw background
+    ctx.fillStyle = backgroundColor;
+    ctx.fillRect(0, 0, width, height);
 
-    // Show save button
-    saveWallpaperButton.style.display = 'block';
+    // Apply Gaussian blur
+    ctx.filter = `blur(${blurAmount}px)`;
+
+    // Draw gradient
+    const gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, gradientColor1);
+    gradient.addColorStop(1, gradientColor2);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw material design elements
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '24px Arial';
+    ctx.fillText('Material Design', 50, 50);
+
+    ctx.beginPath();
+    ctx.arc(180, 320, 50, 0, 2 * Math.PI);
+    ctx.fillStyle = '#00796b';
+    ctx.fill();
 }
 
-// Function to save wallpaper
-function saveWallpaper() {
-    wallpaperCanvas.toBlob((blob) => {
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = 'wallpaper.png';
-        link.click();
-    });
-}
-
-// Add event listeners
-generateWallpaperButton.addEventListener('click', generateWallpaper);
-saveWallpaperButton.addEventListener('click', saveWallpaper);
-
-// Generate initial wallpaper
-generateWallpaper();
+function getRandomColor() {
+    const colors = [
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#0
+        
