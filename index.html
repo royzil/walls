@@ -1,19 +1,137 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Wallpaper Generator</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <title>Random Material Dark Wallpaper Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* fullscreen, dark background fallback */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: #111;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #ddd;
+      font-family: sans-serif;
+    }
+    canvas {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+    }
+    #controls {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 10;
+      background: rgba(0,0,0,0.5);
+      padding: 8px 12px;
+      border-radius: 4px;
+    }
+    button {
+      font-size: 14px;
+      padding: 6px 10px;
+      margin: 0 4px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      background: #222;
+      color: #ddd;
+    }
+    button:hover {
+      background: #333;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Random Wallpaper Generator</h1>
-        <button id="generateButton">Generate Wallpaper</button>
-        <div id="wallpaperContainer">
-            <canvas id="wallpaperCanvas"></canvas>
-        </div>
-    </div>
-    <script src="script.js"></script>
+  <div id="controls">
+    <button id="regen">🔄 New Wallpaper</button>
+    <button id="download">⬇️ Download</button>
+  </div>
+  <canvas id="c"></canvas>
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+
+    // resize canvas to fill window
+    function resize() {
+      canvas.width = window.innerWidth * devicePixelRatio;
+      canvas.height = window.innerHeight * devicePixelRatio;
+      ctx.scale(devicePixelRatio, devicePixelRatio);
+      drawRandom();
+    }
+    window.addEventListener('resize', resize);
+
+    // material-style dark palette in greens, blues, greys
+    const palette = [
+      '#1B5E20', '#2E7D32', '#4CAF50', // greens
+      '#0D47A1', '#1565C0', '#2196F3', // blues
+      '#37474F', '#455A64', '#607D8B'  // greys
+    ];
+
+    function randRange(min, max) {
+      return min + Math.random()*(max - min);
+    }
+
+    function drawRandom() {
+      // clear
+      ctx.fillStyle = '#121212';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      const w = canvas.width / devicePixelRatio;
+      const h = canvas.height / devicePixelRatio;
+      const count = Math.floor(randRange(5, 15));
+
+      for (let i = 0; i < count; i++) {
+        // pick random shape: rect or triangle
+        const shape = Math.random()<0.5 ? 'rect' : 'tri';
+        const col = palette[Math.floor(Math.random()*palette.length)];
+        ctx.fillStyle = col + 'CC'; // add alpha
+
+        // random position and size
+        const x1 = randRange( -0.2*w, 1.2*w );
+        const y1 = randRange( -0.2*h, 1.2*h );
+        const x2 = randRange( -0.2*w, 1.2*w );
+        const y2 = randRange( -0.2*h, 1.2*h );
+        const x3 = randRange( -0.2*w, 1.2*w );
+        const y3 = randRange( -0.2*h, 1.2*h );
+
+        ctx.beginPath();
+        if (shape==='rect') {
+          const rw = randRange(w*0.2, w*0.8);
+          const rh = randRange(h*0.2, h*0.8);
+          ctx.fillRect(x1, y1, rw, rh);
+        } else {
+          ctx.moveTo(x1, y1);
+          ctx.lineTo(x2, y2);
+          ctx.lineTo(x3, y3);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+    }
+
+    // initial draw
+    resize();
+
+    // regenerate
+    document.getElementById('regen')
+      .addEventListener('click', drawRandom);
+
+    // download as PNG
+    document.getElementById('download')
+      .addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = 'wallpaper.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
+  </script>
 </body>
 </html>
