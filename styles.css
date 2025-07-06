@@ -2,6 +2,8 @@ body {
     background-color: #333333;
     color: #ffffff;
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
 #generate-wallpaper {
@@ -13,6 +15,8 @@ body {
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 #save-wallpaper {
@@ -24,6 +28,9 @@ body {
     border: none;
     padding: 10px 20px;
     cursor: pointer;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: none;
 }
 
 #wallpaper-canvas {
