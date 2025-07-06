@@ -1,4 +1,5 @@
 const generateWallpaperButton = document.getElementById('generate-wallpaper');
+const saveWallpaperButton = document.getElementById('save-wallpaper');
 const wallpaperCanvas = document.getElementById('wallpaper-canvas');
 const ctx = wallpaperCanvas.getContext('2d');
 
@@ -34,11 +35,24 @@ function generateWallpaper() {
             ctx.fillRect(x, y, size, size);
         }
     }
+
+    // Show save button
+    saveWallpaperButton.style.display = 'block';
 }
 
-// Add event listener to generate wallpaper button
+// Function to save wallpaper
+function saveWallpaper() {
+    wallpaperCanvas.toBlob((blob) => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'wallpaper.png';
+        link.click();
+    });
+}
+
+// Add event listeners
 generateWallpaperButton.addEventListener('click', generateWallpaper);
+saveWallpaperButton.addEventListener('click', saveWallpaper);
 
 // Generate initial wallpaper
-generateWallpaper();
-
+// generateWallpaper();
