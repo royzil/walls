@@ -1,6 +1,7 @@
 document.getElementById('generateButton').addEventListener('click', generateWallpaper);
 
 function generateWallpaper() {
+    console.log('Generate Wallpaper button clicked');
     const canvas = document.getElementById('wallpaperCanvas');
     const ctx = canvas.getContext('2d');
     const width = 360; // Standard phone width
@@ -43,5 +44,10 @@ function getRandomColor() {
     const colors = [
         '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
         '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
-        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#0
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695c',
+        '#00796b', '#009688', '#004d40', '#00695c', '#00796b', '#009688', '#004d40', '#00695
         
