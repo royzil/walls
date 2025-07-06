@@ -8,30 +8,36 @@ wallpaperCanvas.width = window.innerWidth;
 wallpaperCanvas.height = window.innerHeight;
 
 // Define color palette
-const primaryColor = '#2E865F';
-const secondaryColor = '#2196F3';
-const backgroundColor = '#333333';
-const accentColor = '#444444';
+const colors = [
+    '#2E865F',
+    '#2196F3',
+    '#FF9800',
+    '#FF69B4',
+    '#8BC34A',
+    '#03A9F4',
+    '#FFC107',
+    '#FF6347',
+];
 
 // Function to generate random wallpaper
 function generateWallpaper() {
-    ctx.fillStyle = backgroundColor;
+    ctx.fillStyle = `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.1)`;
     ctx.fillRect(0, 0, wallpaperCanvas.width, wallpaperCanvas.height);
 
-    // Draw random shapes
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 500; i++) {
         const shapeType = Math.random() < 0.5 ? 'circle' : 'rectangle';
         const x = Math.random() * wallpaperCanvas.width;
         const y = Math.random() * wallpaperCanvas.height;
         const size = Math.random() * 50 + 10;
+        const color = colors[Math.floor(Math.random() * colors.length)];
 
         if (shapeType === 'circle') {
-            ctx.fillStyle = Math.random() < 0.5 ? primaryColor : secondaryColor;
+            ctx.fillStyle = color;
             ctx.beginPath();
             ctx.arc(x, y, size, 0, 2 * Math.PI);
             ctx.fill();
         } else {
-            ctx.fillStyle = accentColor;
+            ctx.fillStyle = color;
             ctx.fillRect(x, y, size, size);
         }
     }
@@ -55,4 +61,4 @@ generateWallpaperButton.addEventListener('click', generateWallpaper);
 saveWallpaperButton.addEventListener('click', saveWallpaper);
 
 // Generate initial wallpaper
-// generateWallpaper();
+generateWallpaper();
